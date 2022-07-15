@@ -96,7 +96,6 @@ const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
 
   let message = generateTmetricTable(timeEntries)
   message += `\nTmetric: https://app.tmetric.com/#/tracker/${accId}`
-  console.log(message)
   // Rocketchat message
   await chat.sendChannelMessage('juniors', message, ':police_officer:')
 })()
@@ -105,12 +104,12 @@ function getTime(timestamp) {
   const seconds = timestamp / 1000
   const minutes = Math.round(seconds / 60)
   if (minutes < 60) {
-    return `${minutes} Min(s)`
+    return `${minutes}M`
   } else {
     const hours = (minutes / 60).toString().split('.')[0]
     let remMins = minutes - hours * 60
     remMins = remMins < 10 ? `0${remMins}` : remMins
-    return `${hours}.${remMins} Hr(s)`
+    return `${hours}.${remMins}H`
   }
 }
 
@@ -147,20 +146,24 @@ async function isOnLeave(username) {
   const leaves = await getOnLeaveList()
   for (const leave of leaves) {
     if (leave.allDay) {
-      if (Object.values(dups).includes(username)) {
+      if (
+        Object.values(dups).includes(
+          leave.title.trim().replace(' ', '.').toLowerCase()
+        )
+      ) {
         if (
           username === leave.title.trim().replace(' ', '.').toLowerCase() ||
           username === leave.who.trim().replace('@', '')
         ) {
           return true
         }
-        break
-      }
-      if (
-        username === leave.title.trim().split(' ')[0].toLowerCase() ||
-        username === leave.who.trim().replace('@', '')
-      ) {
-        return true
+      } else {
+        if (
+          username === leave.title.trim().split(' ')[0].toLowerCase() ||
+          username === leave.who.trim().replace('@', '')
+        ) {
+          return true
+        }
       }
     }
   }
