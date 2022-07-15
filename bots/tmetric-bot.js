@@ -29,15 +29,13 @@ function getAccountId() {
 
 const memberList = {
   'Kiran Parajuli': 'kiran',
-  'Talank Baral': 'talank',
   'Sajan Gurung': 'sawjan',
   'Swikriti Tripathi': 'swikriti',
   'Amrita Shrestha': 'amrita',
   'Prarup Gurung': 'prarup',
   'Sagar Gurung': 'sagar',
   'Sushmita Poudel': 'sushmita',
-  // AK doesn't have tmetric access
-  // 'Kiran Adhikari': 'kiran.adhikari',
+  'Kiran Adhikari': 'kiran.adhikari',
 }
 
 const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
@@ -96,7 +94,9 @@ const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
     }
   }
 
-  const message = generateTmetricTable(timeEntries)
+  let message = generateTmetricTable(timeEntries)
+  message += `\nTmetric: https://app.tmetric.com/#/tracker/${accId}`
+  console.log(message)
   // Rocketchat message
   await chat.sendChannelMessage('juniors', message, ':police_officer:')
 })()
@@ -147,14 +147,18 @@ async function isOnLeave(username) {
   const leaves = await getOnLeaveList()
   for (const leave of leaves) {
     if (leave.allDay) {
+      if (Object.values(dups).includes(username)) {
+        if (
+          username === leave.title.trim().replace(' ', '.').toLowerCase() ||
+          username === leave.who.trim().replace('@', '')
+        ) {
+          return true
+        }
+        break
+      }
       if (
-        Object.values(dups).includes(username) &&
-        username === leave.title.split(' ')[0].toLowerCase()
-      ) {
-        return true
-      } else if (
-        username === leave.title.replace(' ', '.').toLowerCase() ||
-        username === leave.who.replace('@', '')
+        username === leave.title.trim().split(' ')[0].toLowerCase() ||
+        username === leave.who.trim().replace('@', '')
       ) {
         return true
       }
