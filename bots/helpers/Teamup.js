@@ -105,16 +105,23 @@ class Teamup {
   filterUserLeaves(leaves, username) {
     return leaves.filter((leave) => {
       if (
-        Object.values(dups).includes(username) &&
-        (username === leave.title.replace(' ', '.').toLowerCase() ||
-          username === leave.who.replace('@', ''))
+        Object.values(dups).includes(
+          leave.title.trim().replace(' ', '.').toLowerCase()
+        )
       ) {
-        return true
-      } else if (
-        username === leave.title.split(' ')[0].toLowerCase() ||
-        username === leave.who.replace('@', '')
-      ) {
-        return true
+        if (
+          username === leave.title.trim().replace(' ', '.').toLowerCase() ||
+          username === leave.who.trim().replace('@', '')
+        ) {
+          return true
+        }
+      } else {
+        if (
+          username === leave.title.trim().split(' ')[0].toLowerCase() ||
+          username === leave.who.trim().replace('@', '')
+        ) {
+          return true
+        }
       }
       return false
     })
