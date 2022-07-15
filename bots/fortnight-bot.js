@@ -60,8 +60,10 @@ const chat = new Chat({
               date: day,
             })
             if (!onLeave) {
-              noRecords[name] = noRecords[name] || []
-              noRecords[name].push(day)
+              noRecords[name] = noRecords[name] || {}
+              noRecords[name].dates = noRecords[name].dates || []
+              noRecords[name].id = id
+              noRecords[name].dates.push(day)
             }
           }
         }
@@ -112,11 +114,14 @@ function generateMessageForNoRecords(data) {
   Object.keys(data).forEach((name) => {
     message += `@${memberList[name]} you have no time records for the following days: `
     const days = []
-    data[name].forEach((d) => {
-      days.push(`**${d}**`)
+    data[name].dates.forEach((d) => {
+      const link = `https://app.tmetric.com/#/tracker/${Tmetric.getAccountId()}/${
+        data[name].id
+      }?day=${d.replace(/-/g, '')}`
+      days.push(`[${d}](${link})`)
     })
     message += days.join(', ') + '\n'
   })
-  message += 'Please, update as sson as possible.'
+  message += '**Please, update as sson as possible!**'
   return message
 }

@@ -73,6 +73,10 @@ class Tmetric {
     })
     return groupedData
   }
+
+  getAccountId() {
+    return this.#accountId
+  }
 }
 
 module.exports = new Tmetric()
