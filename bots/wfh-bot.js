@@ -71,8 +71,10 @@ function sendMessage(username, message) {
   const users = await getWFHUsers('work-from-home')
 
   users.forEach((user) => {
-    const username = user.title.toLowerCase()
-
+    let username = user.title.toLowerCase().trim()
+    if (username === 'kiran adhikari') {
+      username = username.replace(/\s/g, '.')
+    }
     if (members.includes(username)) {
       if (['phil', 'artur', 'ashish', 'binu'].includes(username)) {
         return
@@ -82,7 +84,7 @@ function sendMessage(username, message) {
       const date = new Date(user.start_dt.replace(/T.*/, ''))
         .toUTCString()
         .replace(/ [0-9]{2}:.*/, '')
-      const message = `Ahh! you have **WORK FROM HOME** today\n NOT NOICE :frowning2:`
+      let message = `Ahh! you have **WORK FROM HOME** today\n PLEASE COME BACK :frowning2:`
       sendMessage(username, message)
     }
   })

@@ -71,7 +71,7 @@ const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
       // if total hours is greater than 12 hrs a day
       if (entries > 3600 * 12 * 1000) {
         const url = `https://app.tmetric.com/#/tracker/${accId}/${id}`
-        forgetToStopMessage += `@${memberList[name]} Did you forget to stop the :tmetric: timer?\nPlease update: ${url}`
+        forgetToStopMessage += `@${memberList[name]} Did you forget to stop the :tmetric: timer?\nPlease update: ${url}\n`
       }
     }
   }
