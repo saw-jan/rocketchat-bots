@@ -3,6 +3,7 @@ require('dotenv').config()
 
 const Tmetric = require('../lib/tmetric-sdk')
 const Chat = require('../lib/rocketchat-sdk')
+const { memberList } = require('./helpers/members')
 
 const tmetric = new Tmetric({
   url: process.env.TMETRIC_SERVER_URL,
@@ -20,20 +21,6 @@ function getAccountId() {
     .then((res) => res.data.activeAccountId)
     .catch((e) => console.log(e))
 }
-
-const memberList = {
-  'Kiran Parajuli': 'kiran',
-  'Talank Baral': 'talank',
-  'Sajan Gurung': 'sawjan',
-  'Swikriti Tripathi': 'swikriti',
-  'Amrita Shrestha': 'amrita',
-  'Prarup Gurung': 'prarup',
-  'Sagar Gurung': 'sagar',
-  'Sushmita Poudel': 'sushmita',
-  'Kiran Adhikari': 'kiran.adhikari',
-}
-
-const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
 
 ;(async function () {
   const accId = await getAccountId()
@@ -79,7 +66,7 @@ const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
   // ping if timer is running
   if (forgetToStopMessage) {
     await chat.sendChannelMessage(
-      'juniors',
+      'cohort',
       forgetToStopMessage,
       ':police_officer:'
     )

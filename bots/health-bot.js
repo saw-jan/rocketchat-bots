@@ -8,10 +8,10 @@ const chat = new Chat({
   userID: process.env.ROCKET_CHAT_USER_ID,
 })
 
-const channel = 'juniors'
+const channel = 'cohort'
 const messages = [
-  ':exclamation:**Health Alert**:exclamation:\n@all Are you sitting with a **CORRECT POSTURE** :man_technologist::woman_technologist:',
-  ':exclamation:**Health Alert**:exclamation:\n@all Take a short break and **STRETCH YOURSELF** :man_running::man_lifting_weights:',
+  ':exclamation:**Health Alert**:exclamation:\n@all Are you sitting with a **CORRECT POSTURE** :man_technologist: :woman_technologist:',
+  ':exclamation:**Health Alert**:exclamation:\n@all Take a short break and **STRETCH YOURSELF** :man_running: :man_lifting_weights:',
 ]
 
 const random = Math.floor(Math.random() * 2)

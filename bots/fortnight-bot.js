@@ -16,8 +16,20 @@ const chat = new Chat({
 
 ;(async function () {
   const sm = await Teamup.getSMEvent()
-
-  if (formattedDate(sm.endDate) === formattedDate(new Date(Date.now()))) {
+  let endDate = new Date(sm.endDate)
+  const endDay = new Date(sm.endDate).getDay()
+  switch (endDay) {
+    case 6:
+      endDate.setDate(endDate.getDate() - 1)
+      break
+    case 0:
+      endDate.setDate(endDate.getDate() - 2)
+      break
+    case 1:
+      endDate.setDate(endDate.getDate() - 3)
+      break
+  }
+  if (formattedDate(endDate) == formattedDate(new Date(Date.now()))) {
     const smStartDate = formattedDate(sm.startDate)
     const smEndDate = formattedDate(sm.endDate)
     const workdays = filterWorkDays(dateInterval(smStartDate, smEndDate))
@@ -84,7 +96,7 @@ const chat = new Chat({
     message += '`0`: no time record\n'
     message += generateMessageForNoRecords(noRecords)
     // Rocketchat message
-    await chat.sendChannelMessage('juniors', message, ':police_officer:')
+    await chat.sendChannelMessage('cohort', message, ':police_officer:')
   }
 })()
 

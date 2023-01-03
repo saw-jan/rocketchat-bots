@@ -3,22 +3,9 @@ require('dotenv').config()
 
 const Teamup = require('@sawjan/teamup-client')
 const Chat = require('../lib/rocketchat-sdk')
+const { memberList } = require('./helpers/members')
 
-const members = [
-  'artur',
-  'phil',
-  'ashish',
-  'binu',
-  'kiran',
-  'talank',
-  'swikriti',
-  'sawjan',
-  'amrita',
-  'prarup',
-  'sagar',
-  'sushmita',
-  'kiran.adhikari',
-]
+const members = Object.values(memberList)
 
 const chat = new Chat({
   url: process.env.ROCKET_CHAT_SERVER_URL,
@@ -76,10 +63,6 @@ function sendMessage(username, message) {
       username = username.replace(/\s/g, '.')
     }
     if (members.includes(username)) {
-      if (['phil', 'artur', 'ashish', 'binu'].includes(username)) {
-        return
-      }
-
       // send message
       const date = new Date(user.start_dt.replace(/T.*/, ''))
         .toUTCString()

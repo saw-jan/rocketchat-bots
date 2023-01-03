@@ -4,6 +4,7 @@ require('dotenv').config()
 const Teamup = require('@sawjan/teamup-client')
 const Tmetric = require('../lib/tmetric-sdk')
 const Chat = require('../lib/rocketchat-sdk')
+const { memberList } = require('./helpers/members')
 
 const tmetric = new Tmetric({
   url: process.env.TMETRIC_SERVER_URL,
@@ -27,18 +28,7 @@ function getAccountId() {
     .catch((e) => console.log(e))
 }
 
-const memberList = {
-  'Kiran Parajuli': 'kiran',
-  'Sajan Gurung': 'sawjan',
-  'Swikriti Tripathi': 'swikriti',
-  'Amrita Shrestha': 'amrita',
-  'Prarup Gurung': 'prarup',
-  'Sagar Gurung': 'sagar',
-  'Sushmita Poudel': 'sushmita',
-  'Kiran Adhikari': 'kiran.adhikari',
-}
-
-const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
+const dups = {}
 
 ;(async function () {
   const timeEntries = []
@@ -97,7 +87,7 @@ const dups = { 'Kiran Adhikari': 'kiran.adhikari' }
   let message = generateTmetricTable(timeEntries)
   message += `\nTmetric: https://app.tmetric.com/#/tracker/${accId}`
   // Rocketchat message
-  await chat.sendChannelMessage('juniors', message, ':police_officer:')
+  await chat.sendChannelMessage('cohort', message, ':police_officer:')
 })()
 
 function getTime(timestamp) {
